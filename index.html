@@ -1,82 +1,119 @@
 <!doctype html>
-<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>JHR | لوحة الإحصائيات</title>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JHR | لوحة التحكم</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f3f6f9;color:#20303d;font-family:Tahoma,Arial,sans-serif}header{background:linear-gradient(120deg,#17324d,#236274);color:white;padding:22px max(18px,calc((100% - 1150px)/2)}.brand{font-size:22px;font-weight:bold}.sub{font-size:13px;opacity:.85;margin-top:6px}main{max-width:1150px;margin:24px auto;padding:0 16px}.top{display:flex;justify-content:space-between;align-items:end;gap:14px;flex-wrap:wrap}h1{font-size:23px;margin:0 0 6px}.muted{color:#687887;font-size:13px}.filters{display:flex;gap:8px;flex-wrap:wrap}.filters select,.filters input{padding:10px;border:1px solid #cbd6df;border-radius:8px;background:#fff;font:13px Tahoma}.note{margin:16px 0;padding:11px 13px;background:#fff8e8;border:1px solid #ead9aa;border-radius:9px;color:#75551c;font-size:12px}.section{font-size:16px;color:#17324d;margin:22px 0 12px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{background:#fff;border:1px solid #dce4eb;border-radius:12px;padding:16px;box-shadow:0 3px 12px #18334a08}.label{font-size:12px;color:#687887}.value{font-size:28px;font-weight:bold;margin:9px 0 4px;color:#17324d}.detail{font-size:11px;color:#84919b}.twocol{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.panel{background:white;border:1px solid #dce4eb;border-radius:12px;padding:17px}.panel h3{font-size:15px;margin:0 0 15px;color:#17324d}.barrow{display:grid;grid-template-columns:110px 1fr 34px;gap:8px;align-items:center;margin:13px 0;font-size:12px}.track{height:10px;background:#edf1f4;border-radius:9px;overflow:hidden}.fill{height:100%;background:#167c80;border-radius:9px}.line{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #edf1f4;font-size:13px}.line:last-child{border:0}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:12px}th,td{text-align:right;padding:11px;border-bottom:1px solid #edf1f4;white-space:nowrap}th{color:#687887;background:#fafcfd}.actions{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}button{border:0;border-radius:8px;padding:10px 14px;font:bold 12px Tahoma;cursor:pointer;background:#167c80;color:white}button.alt{background:#e9eef2;color:#34495a}footer{text-align:center;color:#84919b;font-size:11px;padding:20px}
-@media(max-width:800px){.cards{grid-template-columns:repeat(2,1fr)}.twocol{grid-template-columns:1fr}}@media(max-width:430px){.cards{grid-template-columns:1fr 1fr}.value{font-size:23px}.barrow{grid-template-columns:85px 1fr 25px}}
-</style></head><body>
-<header><div class="brand">JHR | لوحة التحكم والإحصائيات</div><div class="sub">جمعية الطرف الخيرية للخدمات الإنسانية</div></header>
+:root{--navy:#142d45;--green:#176b55;--green2:#e7f2ed;--ink:#1e2935;--muted:#718096;--line:#e5eaf0;--bg:#f4f7f8;--white:#fff;--gold:#b7791f;--red:#b54747}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif;line-height:1.6}
+header{background:linear-gradient(110deg,var(--navy),#1c4c59);color:#fff;padding:22px clamp(18px,4vw,56px);display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px}.logo{width:46px;height:46px;border:1px solid #ffffff66;border-radius:13px;display:grid;place-items:center;font-weight:800;font-size:20px;color:#d8eee4}
+.brand h1{font-size:21px;margin:0}.brand p{margin:2px 0 0;color:#d5e2e7;font-size:13px}
+.header-side{font-size:13px;color:#dce7eb}
+main{width:min(100% - 40px,1500px);margin:26px auto 50px}
+.intro{display:flex;justify-content:space-between;align-items:end;gap:18px;flex-wrap:wrap;margin-bottom:20px}
+h2{font-size:25px;margin:0 0 5px;color:var(--navy)}.sub{color:var(--muted);font-size:14px}
+.filters{display:flex;gap:10px;flex-wrap:wrap}
+select{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 13px;color:var(--ink);font:inherit;min-width:150px}
+.notice{background:#fff8e8;border:1px solid #f1dfb6;color:#79551c;padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:20px}
+.section-title{font-size:17px;color:var(--navy);margin:22px 0 12px;font-weight:700}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.metric{background:var(--white);border:1px solid var(--line);border-radius:15px;padding:17px 18px;min-width:0;box-shadow:0 3px 12px #142d4508}
+.metric .label{color:var(--muted);font-size:13px}.metric .value{font-size:29px;font-weight:800;color:var(--navy);margin:5px 0}.metric .foot{font-size:12px;color:var(--green)}
+.metric.alert .value{color:var(--gold)}
+.content-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;margin-top:16px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:15px;padding:18px;min-width:0;box-shadow:0 3px 12px #142d4508}
+.panel h3{margin:0 0 15px;font-size:16px;color:var(--navy)}
+.bar-row{display:grid;grid-template-columns:140px 1fr 42px;gap:10px;align-items:center;margin:13px 0;font-size:13px}
+.track{height:11px;background:#edf1f3;border-radius:20px;overflow:hidden}.fill{height:100%;background:var(--green);border-radius:20px}
+.bar-row strong{font-size:13px;text-align:left}
+.comparison{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.compare{background:#f7f9fa;border-radius:12px;padding:13px}.compare span{display:block;color:var(--muted);font-size:12px}.compare b{font-size:21px;color:var(--navy)}
+.alert-list{display:grid;gap:10px}.alert-item{display:flex;justify-content:space-between;gap:12px;padding:11px 12px;background:#f8fafb;border-radius:10px;font-size:13px}.alert-item b{color:var(--navy);white-space:nowrap}
+.pill{border-radius:20px;padding:3px 9px;font-size:11px;background:#fff0d6;color:#8a5b14;white-space:nowrap}
+.pill.green{background:var(--green2);color:var(--green)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:right;padding:12px 10px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:600;background:#fafcfc}td{color:#344253}
+footer{text-align:center;color:#8793a0;font-size:12px;padding:24px 10px}
+@media(max-width:950px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.content-grid{grid-template-columns:1fr}}
+@media(max-width:560px){main{width:min(100% - 24px,1500px);margin-top:18px}.metrics{grid-template-columns:1fr 1fr;gap:9px}.metric{padding:13px}.metric .value{font-size:23px}.bar-row{grid-template-columns:100px 1fr 30px;gap:7px}.intro{align-items:stretch}select{flex:1;min-width:125px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand"><div class="logo">JHR</div><div><h1>نظام الموارد البشرية</h1><p>جمعية الطرف الخيرية للخدمات الإنسانية</p></div></div>
+ <div class="header-side">لوحة التحكم والإحصائيات　|　نسخة تجريبية</div>
+</header>
 <main>
-<div class="top"><div><h1>ملخص الموارد البشرية</h1><div class="muted">نظرة دورية على الموظفين والرواتب والحضور والإجازات</div></div>
-<div class="filters"><select id="period"><option value="الشهر الحالي">الشهر الحالي</option><option value="الشهر السابق">الشهر السابق</option><option value="آخر 3 أشهر">آخر 3 أشهر</option><option value="السنة الحالية">السنة الحالية</option></select><select id="sector"><option value="كل القطاعات">كل القطاعات</option><option>الإدارة العامة</option><option>الخدمات الاجتماعية</option><option>الاستثمار</option></select><input id="from" type="date" aria-label="من تاريخ"><input id="to" type="date" aria-label="إلى تاريخ"></div></div>
-<div class="note">أرقام توضيحية للعرض فقط وليست بيانات فعلية للجمعية. خيارات الطباعة والتصدير تعمل على هذه الأرقام التجريبية، وعند ربط النظام ستُحسب من سجلات الموظفين والرواتب والحضور والإجازات.</div>
-<h2 class="section">المؤشرات الرئيسية</h2>
-<div class="cards">
-<div class="card"><div class="label">إجمالي الموظفين</div><div class="value" data-key="employees">142</div><div class="detail">على رأس العمل</div></div>
-<div class="card"><div class="label">إجمالي الرواتب الشهرية</div><div class="value" data-key="payroll">486,500</div><div class="detail">ريال سعودي — قبل أي استقطاعات</div></div>
-<div class="card"><div class="label">إجازات خلال الفترة</div><div class="value" data-key="leaves">18</div><div class="detail">طلبات معتمدة</div></div>
-<div class="card"><div class="label">غيابات خلال الفترة</div><div class="value" data-key="absences">7</div><div class="detail">حالات مسجلة</div></div>
-<div class="card"><div class="label">حضور اليوم</div><div class="value" data-key="present">128</div><div class="detail">من إجمالي الموظفين</div></div>
-<div class="card"><div class="label">تأخر عن الدوام</div><div class="value" data-key="late">9</div><div class="detail">حالة خلال الفترة</div></div>
-<div class="card"><div class="label">عقود تنتهي قريباً</div><div class="value" data-key="contracts">5</div><div class="detail">خلال 60 يوماً</div></div>
-<div class="card"><div class="label">موظفون جدد</div><div class="value" data-key="new">4</div><div class="detail">خلال الفترة المحددة</div></div>
-</div>
-<h2 class="section">تفصيل حسب القطاع والتنبيهات</h2>
-<div class="twocol">
-<div class="panel"><h3>توزيع الموظفين حسب القطاع</h3>
-<div class="barrow"><span>الإدارة العامة</span><div class="track"><div class="fill" style="width:25%"></div></div><b>36</b></div>
-<div class="barrow"><span>الخدمات الاجتماعية</span><div class="track"><div class="fill" style="width:46%"></div></div><b>65</b></div>
-<div class="barrow"><span>الاستثمار</span><div class="track"><div class="fill" style="width:29%"></div></div><b>41</b></div>
-<p class="muted">تُعرض القطاعات الفعلية بعد إدخال الهيكل التنظيمي المعتمد.</p></div>
-<div class="panel"><h3>التنبيهات والإجراءات</h3>
-<div class="line"><span>عقود تحتاج مراجعة</span><b>5</b></div><div class="line"><span>إقامات / هويات قاربت الانتهاء</span><b>3</b></div><div class="line"><span>طلبات إجازة بانتظار الاعتماد</span><b>6</b></div><div class="line"><span>ملفات موظفين ناقصة</span><b>4</b></div></div>
-</div>
-<h2 class="section">ملخص التقرير الدوري</h2>
-<div class="panel tablewrap"><div id="reportHeading" style="font-weight:bold;margin-bottom:10px">تقرير الشهر الحالي — كل القطاعات</div><table id="reportTable"><thead><tr><th>المؤشر</th><th>الفترة الحالية</th><th>الفترة السابقة</th><th>التغير</th></tr></thead><tbody>
-<tr><td>عدد الموظفين</td><td>142</td><td>139</td><td>+3</td></tr><tr><td>الرواتب الشهرية</td><td>486,500 ر.س</td><td>479,000 ر.س</td><td>+7,500 ر.س</td></tr><tr><td>الإجازات المعتمدة</td><td>18</td><td>21</td><td>-3</td></tr><tr><td>الغيابات</td><td>7</td><td>9</td><td>-2</td></tr></tbody></table></div>
-<div class="actions"><button onclick="printReport()">طباعة / حفظ PDF</button><button class="alt" onclick="exportCSV()">تنزيل التقرير Excel (CSV)</button></div>
-<div class="muted" style="margin:0 0 24px">لإنشاء PDF اختر «طباعة / حفظ PDF» ثم اختر «حفظ بتنسيق PDF» من نافذة الطباعة. ملف CSV يفتح في Excel ويمكن حفظه بصيغة XLSX.</div>
-</main><footer>JHR — لوحة إحصائيات تجريبية | جميع الأرقام المعروضة افتراضية</footer>
+ <div class="intro">
+  <div><h2>ملخص الموارد البشرية</h2><div class="sub">نظرة دورية على الموظفين والرواتب والحضور والإجازات</div></div>
+  <div class="filters">
+   <select id="sector" aria-label="اختيار القطاع"><option value="all">كل القطاعات</option><option value="society">الجمعية</option><option value="one">القطاع الاستثماري الأول</option><option value="two">القطاع الاستثماري الثاني</option></select>
+   <select aria-label="الفترة"><option>الشهر الحالي</option><option>الشهر السابق</option><option>آخر 3 أشهر</option><option>السنة الحالية</option></select>
+  </div>
+ </div>
+ <div class="notice">بيانات توضيحية للتجربة فقط وليست بيانات فعلية للجمعية. ستتغير الأرقام حسب القطاع المختار.</div>
+ <div class="section-title">المؤشرات الرئيسية</div>
+ <section class="metrics">
+  <article class="metric"><div class="label">إجمالي الموظفين</div><div class="value" id="employees">142</div><div class="foot">على رأس العمل</div></article>
+  <article class="metric"><div class="label">إجمالي الرواتب الشهرية</div><div class="value" id="payroll">486,500</div><div class="foot">ريال سعودي — قبل أي استقطاعات</div></article>
+  <article class="metric"><div class="label">إجازات خلال الفترة</div><div class="value" id="leaves">18</div><div class="foot">طلبات إجازة معتمدة</div></article>
+  <article class="metric"><div class="label">غيابات خلال الفترة</div><div class="value" id="absences">7</div><div class="foot">حالات مسجلة</div></article>
+  <article class="metric"><div class="label">حضور اليوم</div><div class="value" id="attendance">128</div><div class="foot">من إجمالي الموظفين</div></article>
+  <article class="metric alert"><div class="label">تأخر عن الدوام</div><div class="value" id="late">9</div><div class="foot">موظفون خلال اليوم</div></article>
+  <article class="metric alert"><div class="label">عقود تنتهي قريباً</div><div class="value" id="contracts">5</div><div class="foot">خلال 60 يوماً</div></article>
+  <article class="metric"><div class="label">موظفون جدد</div><div class="value" id="newhires">4</div><div class="foot">خلال الفترة المحددة</div></article>
+ </section>
+ <div class="content-grid">
+  <section class="panel"><h3>توزيع الموظفين حسب القطاع</h3>
+   <div class="bar-row"><span>الجمعية</span><div class="track"><div class="fill" id="barSociety" style="width:52%"></div></div><strong id="numSociety">74</strong></div>
+   <div class="bar-row"><span>الاستثماري الأول</span><div class="track"><div class="fill" id="barOne" style="width:29%"></div></div><strong id="numOne">41</strong></div>
+   <div class="bar-row"><span>الاستثماري الثاني</span><div class="track"><div class="fill" id="barTwo" style="width:19%"></div></div><strong id="numTwo">27</strong></div>
+  </section>
+  <section class="panel"><h3>مقارنة بالشهر السابق</h3>
+   <div class="comparison">
+    <div class="compare"><span>عدد الموظفين</span><b>+3.6%</b></div>
+    <div class="compare"><span>إجمالي الرواتب</span><b>+2.1%</b></div>
+    <div class="compare"><span>الإجازات</span><b>−4.0%</b></div>
+    <div class="compare"><span>الغيابات</span><b>−1.5%</b></div>
+   </div>
+  </section>
+ </div>
+ <div class="content-grid">
+  <section class="panel"><h3>التنبيهات والمتابعة</h3><div class="alert-list">
+   <div class="alert-item"><span>عقود عمل تقترب من تاريخ الانتهاء</span><b>5 <i class="pill">تحتاج متابعة</i></b></div>
+   <div class="alert-item"><span>طلبات إجازة بانتظار الإجراء</span><b>3 <i class="pill">معلقة</i></b></div>
+   <div class="alert-item"><span>ملفات موظفين تحتاج استكمال بيانات</span><b>6 <i class="pill green">للمراجعة</i></b></div>
+  </div></section>
+  <section class="panel"><h3>اختصارات النظام</h3><div class="alert-list">
+   <div class="alert-item"><span>ملفات الموظفين</span><b>عرض تجريبي</b></div>
+   <div class="alert-item"><span>الحضور والانصراف</span><b>عرض تجريبي</b></div>
+   <div class="alert-item"><span>الإجازات والطلبات</span><b>عرض تجريبي</b></div>
+   <div class="alert-item"><span>التقارير والإحصائيات</span><b>عرض تجريبي</b></div>
+  </div></section>
+ </div>
+ <section class="panel" style="margin-top:16px"><h3>آخر التحديثات</h3><table><thead><tr><th>الإجراء</th><th>القسم</th><th>الحالة</th><th>التاريخ</th></tr></thead><tbody>
+  <tr><td>إضافة موظف جديد</td><td>الموارد البشرية</td><td><span class="pill green">مكتمل</span></td><td>17 نوفمبر 2026</td></tr>
+  <tr><td>تحديث بيانات عقد</td><td>الشؤون الإدارية</td><td><span class="pill green">مكتمل</span></td><td>16 نوفمبر 2026</td></tr>
+  <tr><td>طلب إجازة</td><td>القطاع الاستثماري الأول</td><td><span class="pill">قيد المراجعة</span></td><td>16 نوفمبر 2026</td></tr>
+ </tbody></table></section>
+ <footer>JHR — معاينة تصميمية فقط. لا يوجد في هذه النسخة تسجيل دخول أو قاعدة بيانات أو حفظ فعلي للبيانات.</footer>
+</main>
 <script>
-const sets={
-'الشهر الحالي':{employees:'142',payroll:'486,500',leaves:'18',absences:'7',present:'128',late:'9',contracts:'5',new:'4',prevEmployees:'139',prevPayroll:'479,000',prevLeaves:'21',prevAbsences:'9'},
-'الشهر السابق':{employees:'139',payroll:'479,000',leaves:'21',absences:'9',present:'124',late:'11',contracts:'6',new:'2',prevEmployees:'137',prevPayroll:'472,000',prevLeaves:'19',prevAbsences:'8'},
-'آخر 3 أشهر':{employees:'142',payroll:'486,500',leaves:'56',absences:'24',present:'128',late:'27',contracts:'12',new:'9',prevEmployees:'137',prevPayroll:'472,000',prevLeaves:'61',prevAbsences:'28'},
-'السنة الحالية':{employees:'142',payroll:'5,838,000',leaves:'214',absences:'83',present:'128',late:'96',contracts:'18',new:'31',prevEmployees:'128',prevPayroll:'5,590,000',prevLeaves:'198',prevAbsences:'91'}
+const data={
+ all:{e:142,p:"486,500",l:18,a:7,at:128,late:9,c:5,n:4,s:74,o:41,t:27},
+ society:{e:74,p:"251,000",l:9,a:3,at:67,late:4,c:2,n:2,s:74,o:0,t:0},
+ one:{e:41,p:"143,500",l:5,a:2,at:37,late:3,c:2,n:1,s:0,o:41,t:0},
+ two:{e:27,p:"92,000",l:4,a:2,at:24,late:2,c:1,n:1,s:0,o:0,t:27}
 };
-function currentData(){return sets[document.getElementById('period').value]}
-function updateReport(){
- const d=currentData(), period=document.getElementById('period').value, sector=document.getElementById('sector').value;
- document.querySelectorAll('[data-key]').forEach(el=>el.textContent=d[el.dataset.key]);
- const rows=[
- ['عدد الموظفين',d.employees,d.prevEmployees],
- ['إجمالي الرواتب (ريال سعودي)',d.payroll,d.prevPayroll],
- ['الإجازات المعتمدة',d.leaves,d.prevLeaves],
- ['الغيابات',d.absences,d.prevAbsences]
- ];
- const tbody=document.querySelector('#reportTable tbody');tbody.innerHTML='';
- rows.forEach(r=>{let a=Number(String(r[1]).replace(/,/g,'')),b=Number(String(r[2]).replace(/,/g,''));let delta=a-b;let tr=document.createElement('tr');[r[0],r[1],r[2],(delta>0?'+':'')+delta.toLocaleString('en-US')].forEach(v=>{let td=document.createElement('td');td.textContent=v;tr.appendChild(td)});tbody.appendChild(tr)});
- document.getElementById('reportHeading').textContent='تقرير '+period+' — '+sector;
-}
-document.getElementById('period').addEventListener('change',updateReport);
-document.getElementById('sector').addEventListener('change',updateReport);
-function csvCell(v){return '"'+String(v).replace(/"/g,'""')+'"'}
-function exportCSV(){
- const period=document.getElementById('period').value, sector=document.getElementById('sector').value;
- const rows=[['تقرير الموارد البشرية JHR'],['جمعية الطرف الخيرية للخدمات الإنسانية'],['الفترة',period],['القطاع',sector],[],['المؤشر','الفترة الحالية','الفترة السابقة','التغير']];
- document.querySelectorAll('#reportTable tr').forEach((tr,i)=>{if(i===0)return;rows.push(Array.from(tr.children).map(td=>td.textContent.trim()))});
- const csv='\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n');
- const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
- const url=URL.createObjectURL(blob),a=document.createElement('a');
- a.href=url;a.download='JHR-HR-Report.csv';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
-}
-function printReport(){
- const period=document.getElementById('period').value, sector=document.getElementById('sector').value;
- const heading=document.getElementById('reportHeading').textContent;
- const table=document.getElementById('reportTable').outerHTML;
- const w=window.open('','_blank');
- if(!w){alert('يرجى السماح بفتح النوافذ المنبثقة لطباعة التقرير.');return;}
- w.document.write('<!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8"><title>تقرير JHR</title><style>body{font-family:Tahoma,Arial;padding:30px;color:#20303d}h1{font-size:22px}p{color:#555}table{width:100%;border-collapse:collapse;margin-top:25px}th,td{border:1px solid #ccd5dc;padding:12px;text-align:right}th{background:#edf2f5}</style><h1>JHR — تقرير الموارد البشرية</h1><p>جمعية الطرف الخيرية للخدمات الإنسانية</p><p>'+heading+'</p>'+table+'<p style="margin-top:35px">تقرير تجريبي بأرقام افتراضية — لا يمثل بيانات الجمعية الفعلية.</p></html>');
- w.document.close();w.focus();w.print();
-}
-updateReport();
-</script></body></html>
+const ids={e:"employees",p:"payroll",l:"leaves",a:"absences",at:"attendance",late:"late",c:"contracts",n:"newhires"};
+document.getElementById("sector").addEventListener("change",e=>{
+ const d=data[e.target.value]; Object.entries(ids).forEach(([k,id])=>document.getElementById(id).textContent=d[k]);
+ const total=d.e||1;
+ [["s","numSociety","barSociety"],["o","numOne","barOne"],["t","numTwo","barTwo"]].forEach(([k,n,b])=>{
+  document.getElementById(n).textContent=d[k];document.getElementById(b).style.width=(d[k]/total*100)+"%";
+ });
+});
+</script>
+</body></html>
