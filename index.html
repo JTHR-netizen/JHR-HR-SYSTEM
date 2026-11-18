@@ -5,28 +5,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>JHR | نظام الموارد البشرية</title>
 <style>
-:root{--navy:#142d45;--green:#176b55;--green2:#e7f2ed;--ink:#1e2935;--muted:#718096;--line:#e5eaf0;--bg:#f4f7f8;--white:#fff;--gold:#b7791f;--red:#b54747}
+
+:root{--navy:#07384d;--deep:#052f43;--teal:#08776f;--teal2:#00665f;--gold:#f4c42e;--ink:#123b52;--muted:#59758a;--line:#d5e1eb;--bg:#edf2fa;--white:#fff;--green:#08776f;--green2:#e7f2ed;--red:#b54747}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif;line-height:1.6}
 button,input,select{font:inherit}
-#loginScreen{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr;background:#f3f6f5}
-.login-visual{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(28px,5vw,72px);color:#fff;background:linear-gradient(145deg,#102b43 5%,#17604f 100%)}
-.login-visual:before,.login-visual:after{content:"";position:absolute;border:1px solid #ffffff24;border-radius:50%;width:520px;height:520px;left:-140px;bottom:-250px}
-.login-visual:after{width:370px;height:370px;left:-65px;bottom:-175px}
-.visual-content,.visual-foot,.login-brand{position:relative;z-index:1}
-.login-brand{display:flex;align-items:center;gap:14px}.logo{width:52px;height:52px;border:1px solid #ffffff70;border-radius:15px;display:grid;place-items:center;font-weight:900;font-size:21px;color:#d8eee4}
-.login-brand strong{font-size:21px}.login-brand small{display:block;color:#d5e2e7;font-size:12px}
-.visual-content{max-width:560px;margin:auto 0}.visual-content .eyebrow{color:#c6e5d7;font-size:13px;letter-spacing:.4px}.visual-content h1{font-size:clamp(30px,4vw,48px);line-height:1.35;margin:14px 0}.visual-content p{color:#d7e6e5;font-size:16px;max-width:480px}
-.visual-points{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.visual-points span{border:1px solid #ffffff35;background:#ffffff10;border-radius:30px;padding:8px 13px;font-size:12px}
-.visual-foot{font-size:12px;color:#c6d8d8}
-.login-area{display:grid;place-items:center;padding:28px}.login-card{width:min(100%,440px);background:#fff;border:1px solid #e6ece9;border-radius:24px;padding:clamp(25px,4vw,42px);box-shadow:0 18px 60px #173c3012}
-.card-mark{width:52px;height:52px;border-radius:16px;background:#e8f3ee;color:var(--green);display:grid;place-items:center;font-weight:900;font-size:20px;margin-bottom:24px}
-.login-card h2{margin:0;color:var(--navy);font-size:25px}.login-sub{color:var(--muted);font-size:13px;margin:7px 0 27px}
-.field{display:block;margin:17px 0}.field span{display:block;font-size:13px;font-weight:700;color:#344253;margin-bottom:8px}
-.field input{width:100%;border:1px solid #dce5e1;border-radius:11px;padding:13px 14px;outline:none;background:#fbfdfc;color:var(--ink)}
-.field input:focus{border-color:#39866d;box-shadow:0 0 0 3px #176b5515}
-.login-btn{width:100%;border:0;border-radius:11px;background:var(--green);color:#fff;padding:14px;font-weight:700;cursor:pointer;margin-top:9px}
-.login-btn:disabled{opacity:.65;cursor:wait}.login-error{display:none;background:#fff0ef;color:#a33d36;border:1px solid #f2d0cd;border-radius:10px;padding:10px 12px;font-size:12px;margin-top:14px}
-.login-note{border-top:1px solid var(--line);margin-top:25px;padding-top:18px;color:#87938f;font-size:11px;text-align:center}
+#loginScreen{min-height:100vh;display:flex;flex-direction:column;background:#eaf0fa;position:relative;overflow:hidden}
+.login-topbar{height:130px;flex:none;background:linear-gradient(110deg,#07384d,#06435a);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:18px clamp(22px,4vw,62px);position:relative;z-index:2}
+.login-brand{display:flex;align-items:center;gap:26px}.logo{width:98px;height:90px;border:4px solid #ffe7a0;border-radius:23px;display:grid;place-items:center;font-weight:900;font-size:37px;color:#fff;letter-spacing:-2px}
+.login-brand strong{font-size:29px;display:block}.login-brand small{display:block;color:#e4edf3;font-size:18px;margin-top:4px}
+.top-login-label{display:flex;align-items:center;gap:18px;font-size:25px}
+.login-stage{flex:1;min-height:650px;position:relative;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;padding:45px clamp(24px,5vw,78px);isolation:isolate;background:linear-gradient(120deg,#163f61 0%,#315c7e 42%,#244d68 100%)}
+.login-stage:before{content:"";position:absolute;inset:0;z-index:-2;background:
+linear-gradient(90deg,#0a3556a8,#092f4e65),
+radial-gradient(ellipse at 20% 45%,#8fa9bc 0 12%,transparent 38%),
+linear-gradient(180deg,#7596b2 0%,#476a87 55%,#263f4e 100%)}
+.login-stage:after{content:"";position:absolute;z-index:-1;inset:0;background:
+linear-gradient(160deg,transparent 0 55%,#092d3a55 56%),
+linear-gradient(0deg,#062f39a6 0 13%,transparent 37%)}
+.building-scene{position:absolute;z-index:-1;left:0;right:0;top:9%;bottom:11%;opacity:.5;pointer-events:none}
+.building-scene:before{content:"";position:absolute;left:8%;top:10%;width:55%;height:72%;background:linear-gradient(90deg,#9aa9b2,#526a7a);clip-path:polygon(0 25%,70% 0,100% 17%,100% 100%,0 100%);box-shadow:0 20px 50px #001a2a}
+.building-scene:after{content:"";position:absolute;left:12%;top:30%;width:48%;height:48%;background:repeating-linear-gradient(90deg,transparent 0 12%,#183e56aa 12.5% 13.5%),repeating-linear-gradient(0deg,transparent 0 18%,#d3e0e955 18.5% 20%);border:2px solid #d8e2e955}
+.login-promo{color:#fff;padding:20px 0 30px;max-width:650px;text-align:center}
+.login-promo h1{font-size:clamp(36px,4.2vw,58px);line-height:1.4;margin:0 0 10px;text-shadow:0 3px 15px #001c30}
+.login-promo p{font-size:clamp(21px,2.2vw,32px);font-weight:700;margin:0;color:#f4f7fa}
+.gold-rule{width:210px;height:5px;background:var(--gold);margin:30px auto 48px}
+.visual-points{display:flex;justify-content:center;gap:0;flex-wrap:wrap}
+.visual-points span{min-width:175px;padding:4px 22px;color:#fff;font-size:18px;font-weight:700;border-left:1px solid #ffffffa8}
+.visual-points span:last-child{border-left:0}
+.visual-points b{display:block;color:var(--gold);font-size:38px;line-height:1.3;margin-bottom:10px}
+.login-area{display:grid;place-items:center;padding:20px 0}
+.login-card{width:min(100%,615px);background:#fff;border:1px solid #e7edf4;border-radius:20px;padding:32px 46px 38px;box-shadow:0 18px 55px #082b4050;text-align:center}
+.card-mark{width:120px;height:110px;border:5px solid var(--teal);border-radius:26px;color:var(--teal);display:grid;place-items:center;font-weight:900;font-size:48px;letter-spacing:-2px;margin:0 auto 22px}
+.login-card h2{margin:0;color:var(--navy);font-size:38px}.login-sub{color:#174f77;font-size:22px;margin:5px 0 24px}
+.field{display:block;margin:14px 0;text-align:right}.field span{display:none}
+.field input{width:100%;border:2px solid #cbd9e8;border-radius:14px;padding:17px 20px;outline:none;background:#eef4fc;color:#101b28;font-size:24px;text-align:right}
+.field input:focus{border-color:#17877e;box-shadow:0 0 0 3px #08776f18}
+.field input::placeholder{color:#6b7d8c}
+.login-btn{width:100%;border:0;border-radius:14px;background:linear-gradient(100deg,#073c55,#064057);color:#fff;padding:17px;font-size:27px;font-weight:700;cursor:pointer;margin-top:10px}
+.login-btn:disabled{opacity:.65;cursor:wait}.login-error{display:none;background:#fff0ef;color:#a33d36;border:1px solid #f2d0cd;border-radius:10px;padding:10px 12px;font-size:13px;margin-top:14px}
+.login-note{border-top:2px solid #d8e3ef;margin-top:24px;padding-top:15px;color:#174f77;font-size:18px;font-weight:700;text-align:center}
+.login-bottom{height:94px;flex:none;background:#eaf0fa;display:flex;align-items:center;justify-content:space-between;padding:15px 38px;color:#174f77;font-size:18px;font-weight:700}
+.login-wave{height:84px;position:absolute;bottom:0;left:0;right:0;z-index:1;pointer-events:none;background:linear-gradient(170deg,#0a8379 0 45%,#005c59 46% 100%);clip-path:polygon(0 15%,12% 42%,30% 67%,52% 83%,75% 77%,100% 25%,100% 100%,0 100%)}
+.login-wave:before{content:"";position:absolute;inset:0;background:#f4c42e;clip-path:polygon(0 0,16% 42%,35% 68%,57% 81%,79% 73%,100% 13%,100% 24%,79% 84%,57% 92%,35% 80%,16% 55%,0 15%)}
 #appScreen{display:none}
 header{background:linear-gradient(110deg,var(--navy),#1c4c59);color:#fff;padding:22px clamp(18px,4vw,56px);display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:14px}.brand .logo{width:46px;height:46px;border-radius:13px}.brand h1{font-size:21px;margin:0}.brand p{margin:2px 0 0;color:#d5e2e7;font-size:13px}
@@ -45,34 +65,44 @@ h2{font-size:25px;margin:0 0 5px;color:var(--navy)}.sub{color:var(--muted);font-
 .pill{border-radius:20px;padding:3px 9px;font-size:11px;background:#fff0d6;color:#8a5b14;white-space:nowrap}.pill.green{background:var(--green2);color:var(--green)}
 table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:right;padding:12px 10px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:600;background:#fafcfc}td{color:#344253}
 footer{text-align:center;color:#8793a0;font-size:12px;padding:24px 10px}
-@media(max-width:950px){#loginScreen{grid-template-columns:1fr}.login-visual{min-height:320px}.visual-content{margin:55px 0}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.content-grid{grid-template-columns:1fr}}
-@media(max-width:560px){.login-area{padding:16px}.login-visual{padding:25px}.visual-content h1{font-size:30px}main{width:min(100% - 24px,1500px);margin-top:18px}.metrics{grid-template-columns:1fr 1fr;gap:9px}.metric{padding:13px}.metric .value{font-size:23px}.bar-row{grid-template-columns:100px 1fr 30px;gap:7px}.intro{align-items:stretch}select{flex:1;min-width:125px}}
+@media(max-width:950px){.login-topbar{height:auto;min-height:95px}.login-brand{gap:14px}.logo{width:66px;height:62px;font-size:27px}.login-brand strong{font-size:20px}.login-brand small{font-size:12px}.top-login-label{font-size:17px}.login-stage{grid-template-columns:1fr;gap:12px;padding:28px 20px 95px}.login-promo{order:2;padding:10px 0}.login-promo h1{font-size:34px}.login-promo p{font-size:19px}.gold-rule{margin:18px auto 20px}.visual-points span{min-width:0;font-size:13px;padding:4px 12px}.visual-points b{font-size:26px}.login-card{max-width:520px;padding:25px}.card-mark{width:80px;height:75px;font-size:34px}.login-card h2{font-size:29px}.login-sub{font-size:17px}.field input{font-size:18px;padding:13px}.login-btn{font-size:20px}.login-bottom{height:auto;min-height:65px;font-size:13px;padding:12px 18px}.login-wave{height:58px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.content-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.login-topbar{padding:13px 15px}.login-brand{gap:10px}.logo{width:54px;height:52px;border-width:2px;border-radius:14px;font-size:23px}.login-brand strong{font-size:16px}.login-brand small{font-size:10px}.top-login-label{font-size:14px;gap:7px}.login-stage{padding:20px 14px 72px}.login-card{padding:22px 18px;border-radius:16px}.login-promo h1{font-size:28px}.login-promo p{font-size:16px}.visual-points span{font-size:11px;padding:3px 8px}.visual-points b{font-size:22px}.login-bottom{font-size:10px;padding:10px}.login-wave{height:45px}main{width:min(100% - 24px,1500px);margin-top:18px}.metrics{grid-template-columns:1fr 1fr;gap:9px}.metric{padding:13px}.metric .value{font-size:23px}.bar-row{grid-template-columns:100px 1fr 30px;gap:7px}.intro{align-items:stretch}select{flex:1;min-width:125px}}
+
 </style>
 </head>
 <body>
 <section id="loginScreen">
- <aside class="login-visual">
+ <div class="login-topbar">
   <div class="login-brand"><div class="logo">JHR</div><div><strong>نظام الموارد البشرية</strong><small>جمعية الطرف الخيرية للخدمات الإنسانية</small></div></div>
-  <div class="visual-content">
-   <div class="eyebrow">منظومة إدارية موحدة</div>
-   <h1>إدارة الموارد البشرية<br>بكفاءة ووضوح</h1>
-   <p>منصة موحدة لتنظيم بيانات الموظفين ومتابعة شؤونهم الإدارية ضمن قطاعات الجمعية.</p>
-   <div class="visual-points"><span>إدارة الموظفين</span><span>متابعة القطاعات</span><span>التقارير والإحصائيات</span></div>
-  </div>
-  <div class="visual-foot">جمعية الطرف الخيرية للخدمات الإنسانية · JHR</div>
- </aside>
- <div class="login-area">
-  <form class="login-card" id="loginForm">
-   <div class="card-mark">JHR</div>
-   <h2>مرحباً بعودتك</h2>
-   <p class="login-sub">سجّل الدخول للمتابعة إلى نظام الموارد البشرية</p>
-   <label class="field"><span>اسم المستخدم</span><input id="username" autocomplete="username" placeholder="أدخل اسم المستخدم" required></label>
-   <label class="field"><span>كلمة المرور</span><input id="password" type="password" autocomplete="current-password" placeholder="أدخل كلمة المرور" required></label>
-   <button class="login-btn" id="loginButton" type="submit">دخول النظام</button>
-   <div class="login-error" id="loginError" role="alert"></div>
-   <div class="login-note">نظام JHR · تسجيل دخول آمن</div>
-  </form>
+  <div class="top-login-label"><span>تسجيل الدخول</span><span aria-hidden="true" style="font-size:34px">♙</span></div>
  </div>
+ <div class="login-stage">
+  <div class="building-scene" aria-hidden="true"></div>
+  <div class="login-promo">
+   <h1>معاً .. نبني فريقاً متميزاً</h1>
+   <p>لخدمة مجتمعنا بأفضل صورة</p>
+   <div class="gold-rule"></div>
+   <div class="visual-points">
+    <span><b>♟</b>إدارة الموظفين</span>
+    <span><b>▦</b>متابعة الحضور</span>
+    <span><b>▤</b>التقارير والإحصائيات</span>
+   </div>
+  </div>
+  <div class="login-area">
+   <form class="login-card" id="loginForm">
+    <div class="card-mark">JHR</div>
+    <h2>تسجيل الدخول</h2>
+    <p class="login-sub">أدخل بياناتك للوصول إلى لوحة التحكم</p>
+    <label class="field"><span>اسم المستخدم</span><input id="username" autocomplete="username" placeholder="اسم المستخدم" required></label>
+    <label class="field"><span>كلمة المرور</span><input id="password" type="password" autocomplete="current-password" placeholder="كلمة المرور" required></label>
+    <button class="login-btn" id="loginButton" type="submit">دخول النظام　↪</button>
+    <div class="login-error" id="loginError" role="alert"></div>
+    <div class="login-note">نظام الموارد البشرية</div>
+   </form>
+  </div>
+ </div>
+ <div class="login-wave" aria-hidden="true"></div>
+ <div class="login-bottom"><span>JHR — جمعية الطرف الخيرية للخدمات الإنسانية</span><span>نسخة تجريبية - 2026</span></div>
 </section>
 
 <section id="appScreen">
