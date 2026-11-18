@@ -15,16 +15,11 @@ button,input,select{font:inherit}
 .login-brand strong{font-size:29px;display:block}.login-brand small{display:block;color:#e4edf3;font-size:18px;margin-top:4px}
 .top-login-label{display:flex;align-items:center;gap:18px;font-size:25px}
 .login-stage{flex:1;min-height:650px;position:relative;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;padding:45px clamp(24px,5vw,78px);isolation:isolate;background:linear-gradient(120deg,#163f61 0%,#315c7e 42%,#244d68 100%)}
-.login-stage:before{content:"";position:absolute;inset:0;z-index:-2;background:
-linear-gradient(90deg,#0a3556a8,#092f4e65),
-radial-gradient(ellipse at 20% 45%,#8fa9bc 0 12%,transparent 38%),
-linear-gradient(180deg,#7596b2 0%,#476a87 55%,#263f4e 100%)}
+.login-stage:before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,#0a3556a8,#092f4e65),url('jhr-building-bg.png') center 48%/cover no-repeat}
 .login-stage:after{content:"";position:absolute;z-index:-1;inset:0;background:
 linear-gradient(160deg,transparent 0 55%,#092d3a55 56%),
 linear-gradient(0deg,#062f39a6 0 13%,transparent 37%)}
-.building-scene{position:absolute;z-index:-1;left:0;right:0;top:9%;bottom:11%;opacity:.5;pointer-events:none}
-.building-scene:before{content:"";position:absolute;left:8%;top:10%;width:55%;height:72%;background:linear-gradient(90deg,#9aa9b2,#526a7a);clip-path:polygon(0 25%,70% 0,100% 17%,100% 100%,0 100%);box-shadow:0 20px 50px #001a2a}
-.building-scene:after{content:"";position:absolute;left:12%;top:30%;width:48%;height:48%;background:repeating-linear-gradient(90deg,transparent 0 12%,#183e56aa 12.5% 13.5%),repeating-linear-gradient(0deg,transparent 0 18%,#d3e0e955 18.5% 20%);border:2px solid #d8e2e955}
+.building-scene{display:none}
 .login-promo{color:#fff;padding:20px 0 30px;max-width:650px;text-align:center}
 .login-promo h1{font-size:clamp(36px,4.2vw,58px);line-height:1.4;margin:0 0 10px;text-shadow:0 3px 15px #001c30}
 .login-promo p{font-size:clamp(21px,2.2vw,32px);font-weight:700;margin:0;color:#f4f7fa}
