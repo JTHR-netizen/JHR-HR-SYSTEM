@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JHR | إدارة الموظفين</title>
+<style>
+:root{--navy:#07384d;--teal:#08776f;--bg:#edf2fa;--ink:#123b52;--muted:#59758a;--line:#d5e1eb;--red:#b54747}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif;line-height:1.6}
+header{background:linear-gradient(110deg,var(--navy),#1c4c59);color:#fff;padding:18px clamp(16px,4vw,48px);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:13px}.logo{width:48px;height:48px;border:2px solid #ffe7a0;border-radius:13px;display:grid;place-items:center;font-weight:900;font-size:20px}h1{font-size:20px;margin:0}.subhead{font-size:12px;color:#d5e2e7}
+button,input,select{font:inherit}.btn{border:0;border-radius:9px;padding:10px 15px;cursor:pointer;font-weight:700}.primary{background:var(--teal);color:white}.secondary{background:#e8eff4;color:var(--navy)}.danger{background:#fff0ef;color:var(--red)}.logout{background:#ffffff16;border:1px solid #ffffff70;color:white}
+main{width:min(100% - 28px,1400px);margin:24px auto}.topline{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}h2{margin:0;color:var(--navy);font-size:24px}.muted{color:var(--muted);font-size:13px}
+.panel{background:white;border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 3px 12px #142d4508}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap}.toolbar input,.toolbar select,.form-grid input,.form-grid select{border:1px solid var(--line);border-radius:9px;padding:10px 12px;background:#fff;color:var(--ink);min-width:0}.toolbar input{flex:1;min-width:220px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}.stat{background:#f7fafc;border:1px solid var(--line);border-radius:10px;padding:9px 14px;font-size:13px}.stat b{color:var(--navy);font-size:18px;margin-inline-start:8px}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:850px;font-size:13px}th,td{text-align:right;padding:12px 10px;border-bottom:1px solid var(--line)}th{background:#f7fafc;color:var(--muted);font-weight:700}td .actions{display:flex;gap:6px}.small{padding:6px 10px;font-size:12px}
+.status{display:inline-block;border-radius:20px;padding:3px 9px;background:#e7f2ed;color:#08776f;font-size:11px}.status.inactive{background:#fff0ef;color:#a33d36}
+.empty,.message{padding:18px;text-align:center;color:var(--muted)}.message.error{color:#a33d36;background:#fff0ef;border-radius:9px}.message.ok{color:#08776f;background:#e7f2ed;border-radius:9px}
+.modal{display:none;position:fixed;inset:0;background:#092b3d99;z-index:5;align-items:center;justify-content:center;padding:16px}.modal.open{display:flex}.dialog{width:min(100%,720px);max-height:92vh;overflow:auto;background:white;border-radius:15px;padding:22px;box-shadow:0 20px 70px #001c3055}.dialog-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.dialog h3{margin:0;color:var(--navy)}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.form-grid label{display:grid;gap:5px;font-size:12px;color:var(--muted)}.form-grid input,.form-grid select{width:100%}.form-grid .wide{grid-column:1/-1}.form-actions{display:flex;justify-content:flex-start;gap:8px;margin-top:18px}
+.loading{opacity:.6;pointer-events:none}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr}.form-grid .wide{grid-column:auto}main{width:calc(100% - 20px)}.panel{padding:13px}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">JHR</div><div><h1>إدارة الموظفين</h1><div class="subhead">جمعية الطرف الخيرية للخدمات الإنسانية</div></div></div><div><span id="userLabel"></span> <button class="btn logout" id="logout">تسجيل الخروج</button></div></header>
+<main>
+ <div class="topline"><div><h2>ملفات الموظفين</h2><div class="muted">إضافة بيانات الموظفين وتحديثها ومتابعتها حسب صلاحية القطاع</div></div><button class="btn primary" id="addBtn">＋ إضافة موظف</button></div>
+ <section class="panel">
+  <div class="stats"><div class="stat">عدد النتائج <b id="count">—</b></div><div class="stat">حالة الاتصال <b id="connection">جارٍ التحقق</b></div></div>
+  <div class="toolbar"><input id="search" type="search" placeholder="ابحث بالاسم أو الرقم الوظيفي أو رقم الهوية أو الجوال"><select id="sectorFilter"><option value="">كل القطاعات</option></select><select id="statusFilter"><option value="">كل الحالات</option><option value="active">على رأس العمل</option><option value="inactive">غير نشط</option></select><button class="btn secondary" id="refresh">تحديث</button></div>
+ </section>
+ <section class="panel"><div id="message" class="message" hidden></div><div class="table-wrap"><table><thead><tr><th>الرقم الوظيفي</th><th>اسم الموظف</th><th>المسمى الوظيفي</th><th>القسم</th><th>القطاع</th><th>الجوال</th><th>الحالة</th><th>الإجراءات</th></tr></thead><tbody id="rows"><tr><td colspan="8" class="empty">جارٍ تحميل البيانات...</td></tr></tbody></table></div></section>
+</main>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="dialog">
+ <div class="dialog-head"><h3 id="modalTitle">إضافة موظف</h3><button class="btn secondary" id="closeModal" type="button">إغلاق ✕</button></div>
+ <form id="employeeForm"><input type="hidden" id="employeeId">
+  <div class="form-grid">
+   <label>الرقم الوظيفي *<input id="employeeNumber" required maxlength="80"></label>
+   <label>اسم الموظف *<input id="fullName" required maxlength="200"></label>
+   <label>رقم الهوية<input id="nationalId" maxlength="30"></label>
+   <label>رقم الجوال<input id="phone" type="tel" maxlength="30"></label>
+   <label>البريد الإلكتروني<input id="email" type="email" maxlength="200"></label>
+   <label>المسمى الوظيفي<input id="jobTitle" maxlength="150"></label>
+   <label>القسم<input id="department" maxlength="150"></label>
+   <label>تاريخ التعيين<input id="hireDate" type="date"></label>
+   <label>القطاع *<select id="employeeSector" required></select></label>
+   <label>الحالة<select id="employmentStatus"><option value="active">على رأس العمل</option><option value="inactive">غير نشط</option></select></label>
+  </div>
+  <div id="formMessage" class="message error" hidden></div>
+  <div class="form-actions"><button class="btn primary" id="saveBtn" type="submit">حفظ البيانات</button><button class="btn secondary" id="cancelBtn" type="button">إلغاء</button></div>
+ </form>
+</div></div>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+const supabase=createClient('https://ebwrmtxipaajuidoprnv.supabase.co','sb_publishable_usSZojCqEueYjf-V71VYZQ_vlFmHmWx');
+const $=id=>document.getElementById(id);
+let profile=null,sectors=[],employees=[],busy=false;
+const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+function showMessage(text,type=''){const el=$('message');el.hidden=!text;el.className='message '+type;el.textContent=text}
+function showFormMessage(text){const el=$('formMessage');el.hidden=!text;el.textContent=text}
+function sectorName(id){return sectors.find(s=>s.id===id)?.name||'—'}
+function permittedSectors(){return profile.role==='super_admin'?sectors:sectors.filter(s=>s.id===profile.sector_id)}
+function fillSectorSelects(){
+ const allowed=permittedSectors();
+ $('sectorFilter').innerHTML='<option value="">كل القطاعات</option>'+allowed.map(s=>'<option value="'+s.id+'">'+escapeHtml(s.name)+'</option>').join('');
+ $('employeeSector').innerHTML=allowed.map(s=>'<option value="'+s.id+'">'+escapeHtml(s.name)+'</option>').join('');
+ if(profile.role!=='super_admin'){$('sectorFilter').value=profile.sector_id;$('sectorFilter').disabled=true;$('employeeSector').value=profile.sector_id;$('employeeSector').disabled=true}
+}
+function filteredRows(){
+ const q=$('search').value.trim().toLowerCase(),sector=$('sectorFilter').value,status=$('statusFilter').value;
+ return employees.filter(e=>(!sector||e.sector_id===sector)&&(!status||e.employment_status===status)&&(!q||[e.full_name,e.employee_number,e.national_id,e.phone,e.email].some(v=>String(v||'').toLowerCase().includes(q))));
+}
+function render(){
+ const list=filteredRows();$('count').textContent=list.length;
+ $('rows').innerHTML=list.length?list.map(e=>'<tr><td>'+escapeHtml(e.employee_number)+'</td><td>'+escapeHtml(e.full_name)+'</td><td>'+escapeHtml(e.job_title||'—')+'</td><td>'+escapeHtml(e.department||'—')+'</td><td>'+escapeHtml(sectorName(e.sector_id))+'</td><td>'+escapeHtml(e.phone||'—')+'</td><td><span class="status '+(e.employment_status==='active'?'':'inactive')+'">'+(e.employment_status==='active'?'على رأس العمل':'غير نشط')+'</span></td><td><div class="actions"><button class="btn secondary small" data-edit="'+e.id+'">تعديل</button><button class="btn danger small" data-delete="'+e.id+'">حذف</button></div></td></tr>').join(''):'<tr><td colspan="8" class="empty">لا توجد سجلات مطابقة.</td></tr>';
+}
+async function loadEmployees(){
+ $('rows').innerHTML='<tr><td colspan="8" class="empty">جارٍ تحميل البيانات...</td></tr>';
+ const {data,error}=await supabase.from('employees').select('id,employee_number,full_name,national_id,phone,email,job_title,department,sector_id,hire_date,employment_status,created_at').order('full_name');
+ if(error){showMessage('تعذر تحميل الموظفين: '+error.message,'error');$('rows').innerHTML='<tr><td colspan="8" class="empty">تعذر تحميل البيانات.</td></tr>';return}
+ employees=data||[];showMessage('');render();
+}
+function openModal(employee=null){
+ $('employeeForm').reset();showFormMessage('');$('employeeId').value=employee?.id||'';
+ $('modalTitle').textContent=employee?'تعديل بيانات موظف':'إضافة موظف';
+ $('employeeNumber').value=employee?.employee_number||'';$('fullName').value=employee?.full_name||'';
+ $('nationalId').value=employee?.national_id||'';$('phone').value=employee?.phone||'';$('email').value=employee?.email||'';
+ $('jobTitle').value=employee?.job_title||'';$('department').value=employee?.department||'';
+ $('hireDate').value=employee?.hire_date||'';$('employmentStatus').value=employee?.employment_status||'active';
+ $('employeeSector').value=employee?.sector_id||profile.sector_id||permittedSectors()[0]?.id||'';
+ $('modal').classList.add('open');
+}
+function closeModal(){$('modal').classList.remove('open')}
+async function init(){
+ const {data:{session},error:sessionError}=await supabase.auth.getSession();
+ if(sessionError||!session){location.replace('index.html');return}
+ const {data:p,error}=await supabase.from('user_profiles').select('username,full_name,role,sector_id').eq('id',session.user.id).maybeSingle();
+ if(error||!p||!['super_admin','sector_admin'].includes(p.role)||(p.role==='sector_admin'&&!p.sector_id)){await supabase.auth.signOut();location.replace('index.html');return}
+ profile=p;$('userLabel').textContent=p.full_name||p.username;
+ const {data:s,error:sectorError}=await supabase.from('sectors').select('id,name').order('name');
+ if(sectorError){showMessage('تعذر تحميل القطاعات: '+sectorError.message,'error');return}
+ sectors=s||[];fillSectorSelects();$('connection').textContent='متصل';await loadEmployees();
+}
+$('addBtn').addEventListener('click',()=>openModal());
+$('closeModal').addEventListener('click',closeModal);$('cancelBtn').addEventListener('click',closeModal);
+$('refresh').addEventListener('click',loadEmployees);$('search').addEventListener('input',render);$('sectorFilter').addEventListener('change',render);$('statusFilter').addEventListener('change',render);
+$('rows').addEventListener('click',async event=>{
+ const edit=event.target.closest('[data-edit]'),del=event.target.closest('[data-delete]');
+ if(edit){const record=employees.find(e=>e.id===edit.dataset.edit);if(record)openModal(record)}
+ if(del){const record=employees.find(e=>e.id===del.dataset.delete);if(!record||!confirm('هل أنت متأكد من حذف الموظف '+record.full_name+'؟ لا يمكن التراجع عن هذا الإجراء.'))return;
+  const {error}=await supabase.from('employees').delete().eq('id',record.id);
+  if(error){showMessage('تعذر حذف الموظف: '+error.message,'error');return}
+  showMessage('تم حذف سجل الموظف.','ok');await loadEmployees();
+ }
+});
+$('employeeForm').addEventListener('submit',async event=>{
+ event.preventDefault();if(busy)return;showFormMessage('');
+ const id=$('employeeId').value;
+ const payload={employee_number:$('employeeNumber').value.trim(),full_name:$('fullName').value.trim(),national_id:$('nationalId').value.trim()||null,phone:$('phone').value.trim()||null,email:$('email').value.trim()||null,job_title:$('jobTitle').value.trim()||null,department:$('department').value.trim()||null,hire_date:$('hireDate').value||null,employment_status:$('employmentStatus').value,sector_id:profile.role==='super_admin'?$('employeeSector').value:profile.sector_id};
+ if(!payload.employee_number||!payload.full_name||!payload.sector_id){showFormMessage('الرجاء إدخال الرقم الوظيفي والاسم والقطاع.');return}
+ if(payload.national_id&&employees.some(e=>e.national_id===payload.national_id&&e.id!==id)){showFormMessage('رقم الهوية مسجل لموظف آخر.');return}
+ if(employees.some(e=>e.employee_number===payload.employee_number&&e.id!==id)){showFormMessage('الرقم الوظيفي مسجل لموظف آخر.');return}
+ busy=true;$('saveBtn').disabled=true;$('saveBtn').textContent='جارٍ الحفظ...';
+ const result=id?await supabase.from('employees').update(payload).eq('id',id):await supabase.from('employees').insert(payload);
+ busy=false;$('saveBtn').disabled=false;$('saveBtn').textContent='حفظ البيانات';
+ if(result.error){showFormMessage('تعذر حفظ البيانات: '+result.error.message);return}
+ closeModal();showMessage(id?'تم تحديث بيانات الموظف.':'تمت إضافة الموظف بنجاح.','ok');await loadEmployees();
+});
+$('logout').addEventListener('click',async()=>{await supabase.auth.signOut();location.replace('index.html')});
+supabase.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_OUT'||!session)location.replace('index.html')});
+init().catch(error=>{showMessage('حدث خطأ أثناء تهيئة الصفحة: '+error.message,'error');$('connection').textContent='غير متصل'});
+</script>
+</body>
+</html>
