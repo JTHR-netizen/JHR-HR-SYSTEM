@@ -191,7 +191,7 @@ function showApp(profile) {
 }
 function showLogin() {
   appScreen.style.display = 'none';
-  loginScreen.style.display = 'grid';
+  loginScreen.style.display = 'flex';
 }
 async function verifyAdminProfile(user) {
   const { data, error } = await supabase
