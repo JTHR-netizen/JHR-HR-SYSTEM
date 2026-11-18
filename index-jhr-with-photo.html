@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JHR | نظام الموارد البشرية</title>
+<style>
+
+:root{--navy:#07384d;--deep:#052f43;--teal:#08776f;--teal2:#00665f;--gold:#f4c42e;--ink:#123b52;--muted:#59758a;--line:#d5e1eb;--bg:#edf2fa;--white:#fff;--green:#08776f;--green2:#e7f2ed;--red:#b54747}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif;line-height:1.6}
+button,input,select{font:inherit}
+#loginScreen{min-height:100vh;display:flex;flex-direction:column;background:#eaf0fa;position:relative;overflow:hidden}
+.login-topbar{height:130px;flex:none;background:linear-gradient(110deg,#07384d,#06435a);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:18px clamp(22px,4vw,62px);position:relative;z-index:2}
+.login-brand{display:flex;align-items:center;gap:26px}.logo{width:98px;height:90px;border:4px solid #ffe7a0;border-radius:23px;display:grid;place-items:center;font-weight:900;font-size:37px;color:#fff;letter-spacing:-2px}
+.login-brand strong{font-size:29px;display:block}.login-brand small{display:block;color:#e4edf3;font-size:18px;margin-top:4px}
+.top-login-label{display:flex;align-items:center;gap:18px;font-size:25px}
+.login-stage{flex:1;min-height:650px;position:relative;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;padding:45px clamp(24px,5vw,78px);isolation:isolate;background:linear-gradient(120deg,#163f61 0%,#315c7e 42%,#244d68 100%)}
+.login-stage:before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,#0a3556a8,#092f4e65),url('jhr-building-bg.png') center 48%/cover no-repeat}
+.login-stage:after{content:"";position:absolute;z-index:-1;inset:0;background:
+linear-gradient(160deg,transparent 0 55%,#092d3a55 56%),
+linear-gradient(0deg,#062f39a6 0 13%,transparent 37%)}
+.building-scene{display:none}
+.login-promo{color:#fff;padding:20px 0 30px;max-width:650px;text-align:center}
+.login-promo h1{font-size:clamp(36px,4.2vw,58px);line-height:1.4;margin:0 0 10px;text-shadow:0 3px 15px #001c30}
+.login-promo p{font-size:clamp(21px,2.2vw,32px);font-weight:700;margin:0;color:#f4f7fa}
+.gold-rule{width:210px;height:5px;background:var(--gold);margin:30px auto 48px}
+.visual-points{display:flex;justify-content:center;gap:0;flex-wrap:wrap}
+.visual-points span{min-width:175px;padding:4px 22px;color:#fff;font-size:18px;font-weight:700;border-left:1px solid #ffffffa8}
+.visual-points span:last-child{border-left:0}
+.visual-points b{display:block;color:var(--gold);font-size:38px;line-height:1.3;margin-bottom:10px}
+.login-area{display:grid;place-items:center;padding:20px 0}
+.login-card{width:min(100%,615px);background:#fff;border:1px solid #e7edf4;border-radius:20px;padding:32px 46px 38px;box-shadow:0 18px 55px #082b4050;text-align:center}
+.card-mark{width:120px;height:110px;border:5px solid var(--teal);border-radius:26px;color:var(--teal);display:grid;place-items:center;font-weight:900;font-size:48px;letter-spacing:-2px;margin:0 auto 22px}
+.login-card h2{margin:0;color:var(--navy);font-size:38px}.login-sub{color:#174f77;font-size:22px;margin:5px 0 24px}
+.field{display:block;margin:14px 0;text-align:right}.field span{display:none}
+.field input{width:100%;border:2px solid #cbd9e8;border-radius:14px;padding:17px 20px;outline:none;background:#eef4fc;color:#101b28;font-size:24px;text-align:right}
+.field input:focus{border-color:#17877e;box-shadow:0 0 0 3px #08776f18}
+.field input::placeholder{color:#6b7d8c}
+.login-btn{width:100%;border:0;border-radius:14px;background:linear-gradient(100deg,#073c55,#064057);color:#fff;padding:17px;font-size:27px;font-weight:700;cursor:pointer;margin-top:10px}
+.login-btn:disabled{opacity:.65;cursor:wait}.login-error{display:none;background:#fff0ef;color:#a33d36;border:1px solid #f2d0cd;border-radius:10px;padding:10px 12px;font-size:13px;margin-top:14px}
+.login-note{border-top:2px solid #d8e3ef;margin-top:24px;padding-top:15px;color:#174f77;font-size:18px;font-weight:700;text-align:center}
+.login-bottom{height:94px;flex:none;background:#eaf0fa;display:flex;align-items:center;justify-content:space-between;padding:15px 38px;color:#174f77;font-size:18px;font-weight:700}
+.login-wave{height:84px;position:absolute;bottom:0;left:0;right:0;z-index:1;pointer-events:none;background:linear-gradient(170deg,#0a8379 0 45%,#005c59 46% 100%);clip-path:polygon(0 15%,12% 42%,30% 67%,52% 83%,75% 77%,100% 25%,100% 100%,0 100%)}
+.login-wave:before{content:"";position:absolute;inset:0;background:#f4c42e;clip-path:polygon(0 0,16% 42%,35% 68%,57% 81%,79% 73%,100% 13%,100% 24%,79% 84%,57% 92%,35% 80%,16% 55%,0 15%)}
+#appScreen{display:none}
+header{background:linear-gradient(110deg,var(--navy),#1c4c59);color:#fff;padding:22px clamp(18px,4vw,56px);display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px}.brand .logo{width:46px;height:46px;border-radius:13px}.brand h1{font-size:21px;margin:0}.brand p{margin:2px 0 0;color:#d5e2e7;font-size:13px}
+.header-side{font-size:13px;color:#dce7eb;display:flex;align-items:center;gap:14px}.logout{border:1px solid #ffffff70;color:#fff;background:#ffffff12;border-radius:9px;padding:7px 13px;cursor:pointer}
+main{width:min(100% - 40px,1500px);margin:26px auto 50px}.intro{display:flex;justify-content:space-between;align-items:end;gap:18px;flex-wrap:wrap;margin-bottom:20px}
+h2{font-size:25px;margin:0 0 5px;color:var(--navy)}.sub{color:var(--muted);font-size:14px}
+.filters{display:flex;gap:10px;flex-wrap:wrap}select{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 13px;color:var(--ink);font:inherit;min-width:150px}
+.notice{background:#fff8e8;border:1px solid #f1dfb6;color:#79551c;padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:20px}
+.section-title{font-size:17px;color:var(--navy);margin:22px 0 12px;font-weight:700}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.metric{background:#fff;border:1px solid var(--line);border-radius:15px;padding:17px 18px;min-width:0;box-shadow:0 3px 12px #142d4508}
+.metric .label{color:var(--muted);font-size:13px}.metric .value{font-size:29px;font-weight:800;color:var(--navy);margin:5px 0}.metric .foot{font-size:12px;color:var(--green)}.metric.alert .value{color:var(--gold)}
+.content-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;margin-top:16px}.panel{background:#fff;border:1px solid var(--line);border-radius:15px;padding:18px;min-width:0;box-shadow:0 3px 12px #142d4508}.panel h3{margin:0 0 15px;font-size:16px;color:var(--navy)}
+.bar-row{display:grid;grid-template-columns:140px 1fr 42px;gap:10px;align-items:center;margin:13px 0;font-size:13px}.track{height:11px;background:#edf1f3;border-radius:20px;overflow:hidden}.fill{height:100%;background:var(--green);border-radius:20px}.bar-row strong{font-size:13px;text-align:left}
+.comparison{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.compare{background:#f7f9fa;border-radius:12px;padding:13px}.compare span{display:block;color:var(--muted);font-size:12px}.compare b{font-size:21px;color:var(--navy)}
+.alert-list{display:grid;gap:10px}.alert-item{display:flex;justify-content:space-between;gap:12px;padding:11px 12px;background:#f8fafb;border-radius:10px;font-size:13px}.alert-item b{color:var(--navy);white-space:nowrap}
+.pill{border-radius:20px;padding:3px 9px;font-size:11px;background:#fff0d6;color:#8a5b14;white-space:nowrap}.pill.green{background:var(--green2);color:var(--green)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:right;padding:12px 10px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:600;background:#fafcfc}td{color:#344253}
+footer{text-align:center;color:#8793a0;font-size:12px;padding:24px 10px}
+@media(max-width:950px){.login-topbar{height:auto;min-height:95px}.login-brand{gap:14px}.logo{width:66px;height:62px;font-size:27px}.login-brand strong{font-size:20px}.login-brand small{font-size:12px}.top-login-label{font-size:17px}.login-stage{grid-template-columns:1fr;gap:12px;padding:28px 20px 95px}.login-promo{order:2;padding:10px 0}.login-promo h1{font-size:34px}.login-promo p{font-size:19px}.gold-rule{margin:18px auto 20px}.visual-points span{min-width:0;font-size:13px;padding:4px 12px}.visual-points b{font-size:26px}.login-card{max-width:520px;padding:25px}.card-mark{width:80px;height:75px;font-size:34px}.login-card h2{font-size:29px}.login-sub{font-size:17px}.field input{font-size:18px;padding:13px}.login-btn{font-size:20px}.login-bottom{height:auto;min-height:65px;font-size:13px;padding:12px 18px}.login-wave{height:58px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.content-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.login-topbar{padding:13px 15px}.login-brand{gap:10px}.logo{width:54px;height:52px;border-width:2px;border-radius:14px;font-size:23px}.login-brand strong{font-size:16px}.login-brand small{font-size:10px}.top-login-label{font-size:14px;gap:7px}.login-stage{padding:20px 14px 72px}.login-card{padding:22px 18px;border-radius:16px}.login-promo h1{font-size:28px}.login-promo p{font-size:16px}.visual-points span{font-size:11px;padding:3px 8px}.visual-points b{font-size:22px}.login-bottom{font-size:10px;padding:10px}.login-wave{height:45px}main{width:min(100% - 24px,1500px);margin-top:18px}.metrics{grid-template-columns:1fr 1fr;gap:9px}.metric{padding:13px}.metric .value{font-size:23px}.bar-row{grid-template-columns:100px 1fr 30px;gap:7px}.intro{align-items:stretch}select{flex:1;min-width:125px}}
+
+</style>
+</head>
+<body>
+<section id="loginScreen">
+ <div class="login-topbar">
+  <div class="login-brand"><div class="logo">JHR</div><div><strong>نظام الموارد البشرية</strong><small>جمعية الطرف الخيرية للخدمات الإنسانية</small></div></div>
+  <div class="top-login-label"><span>تسجيل الدخول</span><span aria-hidden="true" style="font-size:34px">♙</span></div>
+ </div>
+ <div class="login-stage">
+  <div class="building-scene" aria-hidden="true"></div>
+  <div class="login-promo">
+   <h1>معاً .. نبني فريقاً متميزاً</h1>
+   <p>لخدمة مجتمعنا بأفضل صورة</p>
+   <div class="gold-rule"></div>
+   <div class="visual-points">
+    <span><b>♟</b>إدارة الموظفين</span>
+    <span><b>▦</b>متابعة الحضور</span>
+    <span><b>▤</b>التقارير والإحصائيات</span>
+   </div>
+  </div>
+  <div class="login-area">
+   <form class="login-card" id="loginForm">
+    <div class="card-mark">JHR</div>
+    <h2>تسجيل الدخول</h2>
+    <p class="login-sub">أدخل بياناتك للوصول إلى لوحة التحكم</p>
+    <label class="field"><span>اسم المستخدم</span><input id="username" autocomplete="username" placeholder="اسم المستخدم" required></label>
+    <label class="field"><span>كلمة المرور</span><input id="password" type="password" autocomplete="current-password" placeholder="كلمة المرور" required></label>
+    <button class="login-btn" id="loginButton" type="submit">دخول النظام　↪</button>
+    <div class="login-error" id="loginError" role="alert"></div>
+    <div class="login-note">نظام الموارد البشرية</div>
+   </form>
+  </div>
+ </div>
+ <div class="login-wave" aria-hidden="true"></div>
+ <div class="login-bottom"><span>JHR — جمعية الطرف الخيرية للخدمات الإنسانية</span><span>نسخة تجريبية - 2026</span></div>
+</section>
+
+<section id="appScreen">
+<header>
+ <div class="brand"><div class="logo">JHR</div><div><h1>نظام الموارد البشرية</h1><p>جمعية الطرف الخيرية للخدمات الإنسانية</p></div></div>
+ <div class="header-side"><span id="welcomeName">مدير النظام</span><button class="logout" id="logoutButton">تسجيل الخروج</button></div>
+</header>
+<main>
+ <div class="intro">
+  <div><h2>ملخص الموارد البشرية</h2><div class="sub">نظرة دورية على الموظفين والرواتب والحضور والإجازات</div></div>
+  <div class="filters">
+   <select id="sector" aria-label="اختيار القطاع"><option value="all">كل القطاعات</option><option value="society">الجمعية</option><option value="one">القطاع الاستثماري الأول</option><option value="two">القطاع الاستثماري الثاني</option></select>
+   <select aria-label="الفترة"><option>الشهر الحالي</option><option>الشهر السابق</option><option>آخر 3 أشهر</option><option>السنة الحالية</option></select>
+  </div>
+ </div>
+ <div class="notice">هذه الأرقام توضيحية مؤقتاً وليست بيانات فعلية. سيتم ربط المؤشرات ببيانات قاعدة البيانات بعد استكمال وحدات النظام.</div>
+ <div class="section-title">المؤشرات الرئيسية</div>
+ <section class="metrics">
+  <article class="metric"><div class="label">إجمالي الموظفين</div><div class="value" id="employees">142</div><div class="foot">على رأس العمل</div></article>
+  <article class="metric"><div class="label">إجمالي الرواتب الشهرية</div><div class="value" id="payroll">486,500</div><div class="foot">ريال سعودي — قبل أي استقطاعات</div></article>
+  <article class="metric"><div class="label">إجازات خلال الفترة</div><div class="value" id="leaves">18</div><div class="foot">طلبات إجازة معتمدة</div></article>
+  <article class="metric"><div class="label">غيابات خلال الفترة</div><div class="value" id="absences">7</div><div class="foot">حالات مسجلة</div></article>
+  <article class="metric"><div class="label">حضور اليوم</div><div class="value" id="attendance">128</div><div class="foot">من إجمالي الموظفين</div></article>
+  <article class="metric alert"><div class="label">تأخر عن الدوام</div><div class="value" id="late">9</div><div class="foot">موظفون خلال اليوم</div></article>
+  <article class="metric alert"><div class="label">عقود تنتهي قريباً</div><div class="value" id="contracts">5</div><div class="foot">خلال 60 يوماً</div></article>
+  <article class="metric"><div class="label">موظفون جدد</div><div class="value" id="newhires">4</div><div class="foot">خلال الفترة المحددة</div></article>
+ </section>
+ <div class="content-grid">
+  <section class="panel"><h3>توزيع الموظفين حسب القطاع</h3>
+   <div class="bar-row"><span>الجمعية</span><div class="track"><div class="fill" id="barSociety" style="width:52%"></div></div><strong id="numSociety">74</strong></div>
+   <div class="bar-row"><span>الاستثماري الأول</span><div class="track"><div class="fill" id="barOne" style="width:29%"></div></div><strong id="numOne">41</strong></div>
+   <div class="bar-row"><span>الاستثماري الثاني</span><div class="track"><div class="fill" id="barTwo" style="width:19%"></div></div><strong id="numTwo">27</strong></div>
+  </section>
+  <section class="panel"><h3>مقارنة بالشهر السابق</h3><div class="comparison">
+   <div class="compare"><span>عدد الموظفين</span><b>+3.6%</b></div><div class="compare"><span>إجمالي الرواتب</span><b>+2.1%</b></div>
+   <div class="compare"><span>الإجازات</span><b>−4.0%</b></div><div class="compare"><span>الغيابات</span><b>−1.5%</b></div>
+  </div></section>
+ </div>
+ <div class="content-grid">
+  <section class="panel"><h3>التنبيهات والمتابعة</h3><div class="alert-list">
+   <div class="alert-item"><span>عقود عمل تقترب من تاريخ الانتهاء</span><b>5 <i class="pill">تحتاج متابعة</i></b></div>
+   <div class="alert-item"><span>طلبات إجازة بانتظار الإجراء</span><b>3 <i class="pill">معلقة</i></b></div>
+   <div class="alert-item"><span>ملفات موظفين تحتاج استكمال بيانات</span><b>6 <i class="pill green">للمراجعة</i></b></div>
+  </div></section>
+  <section class="panel"><h3>اختصارات النظام</h3><div class="alert-list">
+   <div class="alert-item"><span>ملفات الموظفين</span><b>قريباً</b></div><div class="alert-item"><span>الحضور والانصراف</span><b>قريباً</b></div>
+   <div class="alert-item"><span>الإجازات والطلبات</span><b>قريباً</b></div><div class="alert-item"><span>التقارير والإحصائيات</span><b>قريباً</b></div>
+  </div></section>
+ </div>
+ <section class="panel" style="margin-top:16px"><h3>آخر التحديثات</h3><table><thead><tr><th>الإجراء</th><th>القسم</th><th>الحالة</th><th>التاريخ</th></tr></thead><tbody>
+  <tr><td>إضافة موظف جديد</td><td>الموارد البشرية</td><td><span class="pill green">مكتمل</span></td><td>17 نوفمبر 2026</td></tr>
+  <tr><td>تحديث بيانات عقد</td><td>الشؤون الإدارية</td><td><span class="pill green">مكتمل</span></td><td>16 نوفمبر 2026</td></tr>
+  <tr><td>طلب إجازة</td><td>القطاع الاستثماري الأول</td><td><span class="pill">قيد المراجعة</span></td><td>16 نوفمبر 2026</td></tr>
+ </tbody></table></section>
+ <footer>JHR — لوحة تحكم تجريبية. الأرقام المعروضة ليست بيانات فعلية.</footer>
+</main>
+</section>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+const SUPABASE_URL = 'https://ebwrmtxipaajuidoprnv.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_usSZojCqEueYjf-V71VYZQ_vlFmHmWx';
+const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+// اسم المستخدم الظاهر للمستخدم مرتبط بحساب Auth الحالي.
+// لا يتم تخزين كلمة المرور في الصفحة أو قاعدة بيانات عامة.
+const USER_EMAILS = { admin: 'jtaarf@gmail.com' };
+
+const loginScreen = document.getElementById('loginScreen');
+const appScreen = document.getElementById('appScreen');
+const loginForm = document.getElementById('loginForm');
+const loginButton = document.getElementById('loginButton');
+const loginError = document.getElementById('loginError');
+
+function showError(message) {
+  loginError.textContent = message;
+  loginError.style.display = 'block';
+}
+function showApp(profile) {
+  loginScreen.style.display = 'none';
+  appScreen.style.display = 'block';
+  document.getElementById('welcomeName').textContent = profile?.full_name || 'مدير النظام';
+}
+function showLogin() {
+  appScreen.style.display = 'none';
+  loginScreen.style.display = 'grid';
+}
+async function verifyAdminProfile(user) {
+  const { data, error } = await supabase
+    .from('user_profiles')
+    .select('username, full_name, role')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  if (error) throw error;
+  if (!data || data.role !== 'super_admin' || data.username !== 'admin') {
+    await supabase.auth.signOut();
+    throw new Error('هذا الحساب غير مخوّل للدخول كمدير نظام.');
+  }
+  return data;
+}
+
+loginForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  loginError.style.display = 'none';
+
+  const username = document.getElementById('username').value.trim().toLowerCase();
+  const password = document.getElementById('password').value;
+  const email = USER_EMAILS[username];
+
+  if (!email) {
+    showError('اسم المستخدم غير صحيح أو غير مفعّل.');
+    return;
+  }
+  if (!password) {
+    showError('أدخل كلمة المرور.');
+    return;
+  }
+
+  loginButton.disabled = true;
+  loginButton.textContent = 'جارٍ التحقق...';
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+    const profile = await verifyAdminProfile(data.user);
+    showApp(profile);
+  } catch (error) {
+    showError(error.message || 'تعذّر تسجيل الدخول. تحقق من البيانات وحاول مجدداً.');
+  } finally {
+    loginButton.disabled = false;
+    loginButton.textContent = 'دخول النظام';
+  }
+});
+
+document.getElementById('logoutButton').addEventListener('click', async () => {
+  await supabase.auth.signOut();
+  showLogin();
+});
+
+supabase.auth.onAuthStateChange(async (event, session) => {
+  if (event === 'INITIAL_SESSION' && session?.user) {
+    try {
+      const profile = await verifyAdminProfile(session.user);
+      showApp(profile);
+    } catch (error) {
+      showLogin();
+      showError(error.message || 'يرجى تسجيل الدخول من جديد.');
+    }
+  }
+});
+
+const data={
+ all:{e:142,p:"486,500",l:18,a:7,at:128,late:9,c:5,n:4,s:74,o:41,t:27},
+ society:{e:74,p:"251,000",l:9,a:3,at:67,late:4,c:2,n:2,s:74,o:0,t:0},
+ one:{e:41,p:"143,500",l:5,a:2,at:37,late:3,c:2,n:1,s:0,o:41,t:0},
+ two:{e:27,p:"92,000",l:4,a:2,at:24,late:2,c:1,n:1,s:0,o:0,t:27}
+};
+const ids={e:"employees",p:"payroll",l:"leaves",a:"absences",at:"attendance",late:"late",c:"contracts",n:"newhires"};
+document.getElementById("sector").addEventListener("change",e=>{
+ const d=data[e.target.value]; Object.entries(ids).forEach(([k,id])=>document.getElementById(id).textContent=d[k]);
+ const total=d.e||1;
+ [["s","numSociety","barSociety"],["o","numOne","barOne"],["t","numTwo","barTwo"]].forEach(([k,n,b])=>{
+  document.getElementById(n).textContent=d[k];document.getElementById(b).style.width=(d[k]/total*100)+"%";
+ });
+});
+</script>
+</body>
+</html>
